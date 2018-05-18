@@ -5,7 +5,7 @@ void Menu::printMenu(){
 }
 
 bool Menu::startGame(){
-  double version = 0.01;
+  double version = 0.02;
   Canvas::clearScreen();
   cout << "\n Welcome to Simple Chess! You're playing version "
     << fixed << setprecision(2) << version << ".";

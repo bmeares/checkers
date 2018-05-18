@@ -5,5 +5,8 @@
 #include "Canvas/Canvas.h"
 #include "Player/Player.h"
 #include "pieces/Piece.h"
+//#include "Board/Square.h"
+#include "Board/Board.h"
+#include "Mechanics/Mechanics.h"
 
 #endif

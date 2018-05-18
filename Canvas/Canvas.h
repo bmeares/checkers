@@ -5,6 +5,8 @@
 #include <string>
 #include <iomanip>
 #include "../Player/Player.h"
+#include "../Board/Board.h"
+#include "../Mechanics/Mechanics.h"
 
 using namespace std;
 

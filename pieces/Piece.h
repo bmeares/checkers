@@ -9,21 +9,23 @@ using namespace std;
 
 class Piece{
   private:
-    char label;
+    string color;
     int x;
     int y;
 
   public:
 
-    void setLabel(char label){this->label = label;}
-    char getLabel(){return label;}
+    void setColor(string clr){this->color = clr;}
+    string getColor(){return color;}
     void setx(int x){this->x = x;}
     int X(){return x;}
     void sety(int y){this->y = y;}
     int Y();
 
+    friend ostream& operator<<(ostream&, Piece&);
+
     Piece();
-    Piece(int, int, char);
+    Piece(string);
     ~Piece();
 };
 #endif
