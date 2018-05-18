@@ -7,6 +7,7 @@
 #include <vector>
 #include "../pieces/Piece.h"
 #include "Square.h"
+#include "../Canvas/Canvas.h"
 
 //#include <iomanip>
 
@@ -22,7 +23,7 @@ class Board{
 
     static matrix Grid(){return grid;}
     static void populate();
-    static Square selectSquare();
+    static Square& selectSquare(bool);
 
     Board();
     ~Board();

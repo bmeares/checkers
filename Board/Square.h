@@ -21,6 +21,8 @@ class Square{
     void setPieceStatus(bool status){this->pieceStatus = status;}
     string getColor(){return color;}
     void setPiece(Piece pc){this->piece = pc;}
+    void setPieceColor(string clr){this->piece.setColor(clr);}
+    string getPieceColor(){return this->piece.getColor();}
 
     friend ostream& operator<<(ostream&, Square&);
     Square();

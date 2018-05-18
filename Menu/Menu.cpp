@@ -11,6 +11,7 @@ bool Menu::startGame(){
     << fixed << setprecision(2) << version << ".";
   cout << "\n\n Enter any key to begin." << endl;
   cin.ignore();
+  Board::populate();
   return true;
 }
 

@@ -10,7 +10,7 @@ int main() {
   bool running = Menu::startGame();
   do{
 
-    running = Canvas::gameState();
+    running = Mechanics::gameState();
 
   } while (running);
 

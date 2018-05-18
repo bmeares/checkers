@@ -12,5 +12,8 @@ ostream& operator << (ostream& out, Piece& piece) {
   else if(piece.color == "black")
     out << "##";
 
+  else if(piece.color == "selected")
+    out << "[]";
+
   return out;
 }

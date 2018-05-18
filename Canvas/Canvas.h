@@ -16,7 +16,7 @@ namespace Canvas{
 //  public:
     void clearScreen();
     void drawBoard();
-    bool gameState();
+//    bool gameState();
 
 //    Canvas();
 //    ~Canvas();

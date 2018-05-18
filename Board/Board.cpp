@@ -57,21 +57,40 @@ void Board::populate(){
 
 }
 
-Square Board::selectSquare(){
+Square& Board::selectSquare(bool from){
 
   char letter;
   int row;
   int col;
+  bool selecting = true;
 
-  cout << "Choose a column (letter): ";
-  cin >> letter;
-  cout << "Choose a row (number): ";
-  cin >> row;
+  while(selecting){
 
-  row = (8 - row);
-  letter = toupper(letter);
-  letter -= 65;
-  col = letter;
+    cout << "Choose a column (letter): ";
+    cin >> letter;
+    cout << "Choose a row (number): ";
+    cin >> row;
+
+    row = (8 - row);
+    letter = toupper(letter);
+    letter -= 65;
+    col = letter;
+
+    if(grid.at(row).at(col).getPieceColor() == "white" && from){
+      grid.at(row).at(col).setPieceColor("selected");
+      selecting = false;
+    }
+
+    else{
+      Canvas::drawBoard();
+      cout << "\n Please choose a square with one of your pieces." << endl;
+      cout << " Press Enter to select again." << endl;
+      cin.clear();
+      cin.ignore();
+      cin.ignore();
+      Canvas::drawBoard();
+    }
+  }
 
   return grid.at(row).at(col);
 

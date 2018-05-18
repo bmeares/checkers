@@ -7,7 +7,6 @@ void Canvas::clearScreen(){
 
 void Canvas::drawBoard(){
   clearScreen();
-  Board::populate();
 
   int numLabel = 8;
   char letterLabel = 'A';
@@ -31,16 +30,13 @@ void Canvas::drawBoard(){
   cout << endl;
 }
 
-bool Canvas::gameState(){
-  clearScreen();
-  drawBoard();
-  Mechanics::playerTurn();
-//TODO   Board::selectSquare();
-
-
-
-  cout << "Run again? ";
-
-  return Player::yesOrNo();
-
-}
+// bool Canvas::gameState(){
+//   clearScreen();
+//   drawBoard();
+//   Mechanics::playerTurn();
+//
+//   cout << "Run again? ";
+//
+//   return Player::yesOrNo();
+//
+// }
