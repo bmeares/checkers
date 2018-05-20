@@ -22,21 +22,22 @@ void Mechanics::playerTurn(){
   Canvas::drawBoard();
 //  cout << "Select which square to move to:\n" << endl;
 //  Square toSqr = Board::selectToSquare();
-  findPossibleMoves(fromSqr);
+  vector<Square> availMoves = findPossibleMoves(fromSqr);
+  chooseMove(fromSqr, availMoves);
+  Canvas::drawBoard();
+
 }
 
-void Mechanics::findPossibleMoves(Square& fromSqr){
+vector<Square> Mechanics::findPossibleMoves(Square& fromSqr){
 
   //TODO finish
-
-//  cout << "inside findPossibleMoves(). Calling loops!" << endl;
-//  cout << "fromSqr row is " << fromSqr.getRow() << endl;
 
   bool isWhite = false;
   bool hasPiece = false;
   bool withinColRange = false;
   int rowAbove = fromSqr.getRow() - 1;
   int option = 1;
+  vector<Square> availMoves;
 //  int colLeft = fromSqr.getCol() - 1;
 //  int colRight = fromSqr.getCol() + 1;
  //  bool nearPiece = false;
@@ -50,26 +51,38 @@ void Mechanics::findPossibleMoves(Square& fromSqr){
      - fromSqr.getCol() == 1) || (Board::Grid().at(rowAbove).at(i).getCol()
      - fromSqr.getCol() == -1));
 
-    // cout << "test: " << Board::Grid().at(5).at(0).getCol() << endl;
-    // cin.ignore();
-
-        // cout << "dif is " << Board::Grid().at(fromSqr.getRow() - 1).at(i).getRow()
-        //   - fromSqr.getRow() << endl;
-
-      // cout << "fromSqr row is " << fromSqr.getRow() << endl;
-      // cout << "Board::Grid().at(fromSqr.getRow() - 1).at(i).getRow() is " << Board::Grid().at(fromSqr.getRow() - 1).at(i).getRow() << endl;
-      // cin.ignore();
-
     if(isWhite && !hasPiece && withinColRange){
       Board::Grid().at(rowAbove).at(i).setPieceColor("des");
       Board::Grid().at(rowAbove).at(i).setPieceOption(option);
+      availMoves.push_back(Board::Grid().at(rowAbove).at(i));
       option++;
-      // cout << "Found a move!!!" << endl;
-      // cin.clear();
-      // cin.ignore();
     }
   }
 
 
   Canvas::drawBoard();
+  return availMoves;
+}
+
+void Mechanics::chooseMove(Square& fromSqr, vector<Square> availMoves){
+  int option;
+  cout << "Choose which move you would like to make (number): ";
+  cin >> option;
+//  cout << "availMoves.at(" << option - 1 << ").getPieceOption() = " << availMoves.at(option - 1).getPieceOption() << endl;
+
+  /* Switch choice and selection */
+  int fromRow = fromSqr.getRow();
+  int fromCol = fromSqr.getCol();
+  Square toSqr = availMoves.at(option - 1);
+//  Square tempSqr = fromSqr;
+  int choiceRow = availMoves.at(option - 1).getRow();
+  int choiceCol = availMoves.at(option - 1).getCol();
+  Board::Grid().at(choiceRow).at(choiceCol) = fromSqr;
+
+  /* Set old selection to empty square */
+//  Board::Grid().at(fromRow).at(fromCol) = toSqr;
+  Board::Grid().at(fromRow).at(fromCol).setPieceColor("");
+  Board::Grid().at(fromRow).at(fromCol).setPieceStatus(false);
+  Board::Grid().at(fromRow).at(fromCol).setColor("white");
+
 }

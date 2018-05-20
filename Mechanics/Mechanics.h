@@ -14,7 +14,8 @@ namespace Mechanics{
 
   void playerTurn();
   bool gameState();
-  void findPossibleMoves(Square&);
+  vector<Square> findPossibleMoves(Square&);
+  void chooseMove(Square&, vector<Square>);
 
 }
 

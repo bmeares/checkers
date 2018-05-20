@@ -13,7 +13,7 @@ ostream& operator << (ostream& out, Piece& piece) {
     out << "##";
 
   if(piece.color == "des"){
-    out << " " << piece.option;
+    out << "*" << piece.option;
   }
 
   if(piece.color == "selected")
