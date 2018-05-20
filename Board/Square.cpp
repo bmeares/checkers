@@ -3,7 +3,7 @@
 ostream& operator << (ostream& out, Square& square) {
   //out <<
 
-  if(square.hasPiece()){
+  if(square.hasPiece() || square.getPieceColor() == "des"){
     out << square.piece;
   }
   else{

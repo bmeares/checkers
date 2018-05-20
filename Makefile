@@ -3,7 +3,7 @@
 # ******************************************************** #
 
 # Output Config
-TARGET :=chess
+TARGET :=checkers
 OBJDIR :=bin/
 
 # Compiler bin

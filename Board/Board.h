@@ -21,9 +21,12 @@ class Board{
 
   public:
 
-    static matrix Grid(){return grid;}
+    static matrix& Grid(){return grid;}
     static void populate();
-    static Square& selectSquare(bool);
+    static Square& selectFromSquare();
+    static Square& selectToSquare();
+    static int selectRow();
+    static int selectCol();
 
     Board();
     ~Board();

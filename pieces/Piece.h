@@ -12,6 +12,7 @@ class Piece{
     string color;
     int x;
     int y;
+    int option;
 
   public:
 
@@ -21,6 +22,8 @@ class Piece{
     int X(){return x;}
     void sety(int y){this->y = y;}
     int Y();
+    void setOption(int o){this->option = o;}
+    int getOption(){return this->option;}
 
     friend ostream& operator<<(ostream&, Piece&);
 

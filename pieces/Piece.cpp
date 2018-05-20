@@ -9,11 +9,17 @@ ostream& operator << (ostream& out, Piece& piece) {
   if(piece.color == "white")
     out << "@@";
 
-  else if(piece.color == "black")
+  if(piece.color == "black")
     out << "##";
 
-  else if(piece.color == "selected")
+  if(piece.color == "des"){
+    out << " " << piece.option;
+  }
+
+  if(piece.color == "selected")
     out << "[]";
+
+
 
   return out;
 }
