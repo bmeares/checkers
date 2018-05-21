@@ -36,6 +36,10 @@ class Square{
     int getCol(){return this->col;}
     void setPieceOption(int o){this->piece.setOption(o);}
     int getPieceOption(){return this->piece.getOption();}
+    void setPieceSelected(bool s){this->piece.setSelected(s);}
+    bool getPieceSelected(){return this->piece.getSelected();}
+    void setPieceDes(bool d){this->piece.setDes(d);}
+    bool getPieceDes(){return this->piece.getDes();}
 
     friend ostream& operator<<(ostream&, Square&);
     Square();

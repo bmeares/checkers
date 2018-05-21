@@ -65,83 +65,34 @@ void Board::populate(){
 
 }
 
-Square& Board::selectFromSquare(){
-
-  int row;
-  int col;
-  bool selecting = true;
-
-  while(selecting){
-
-    col = selectCol();
-    row = selectRow();
-
-    if(grid.at(row).at(col).getPieceColor() == "white"){
-      grid.at(row).at(col).setPieceColor("selected");
-      selecting = false;
-    }
-
-    else{
-      Canvas::drawBoard();
-      cout << "\n Please choose a square with one of your pieces." << endl;
-      cout << " Press Enter to select again." << endl;
-      cin.clear();
-      cin.ignore();
-      cin.ignore();
-      Canvas::drawBoard();
-    }
-    // else{
-    //    //NOTE this is where toSquare is valid
-    //    cout << "Setting color to destination" << endl;
-    //    grid.at(row).at(col).setPieceColor("destination");
-    //    selecting = false;
-    // }
-  }
-
-  cout << "grid.at(row).at(col) row is " << grid.at(row).at(col).getRow() << endl;
-
-  return grid.at(row).at(col);
-
-}
-
-Square& Board::selectToSquare(){
-
-  int row;
-  int col;
-  bool selecting = true;
-
-  while(selecting){
-
-    col = selectCol();
-    row = selectRow();
-
-    if(grid.at(row).at(col).getColor() == "white" &&
-    grid.at(row).at(col).getPieceColor() == ""){
-      cout << "setting piece color at " << row << "," << col << " to des" << endl;
-      grid.at(row).at(col).setPieceColor("des");
-      selecting = false;
-    }
-
-    else{
-      Canvas::drawBoard();
-      cout << "\n Please choose an empty square." << endl;
-      cout << " Press Enter to select again." << endl;
-      cin.clear();
-      cin.ignore();
-      cin.ignore();
-      Canvas::drawBoard();
-    }
-    // else{
-    //    //NOTE this is where toSquare is valid
-    //    cout << "Setting color to destination" << endl;
-    //    grid.at(row).at(col).setPieceColor("destination");
-    //    selecting = false;
-    // }
-  }
-
-  return grid.at(row).at(col);
-
-}
+// Square& Board::selectFromSquare(){
+//
+//   bool selecting = true;
+//
+//   while(selecting){
+//
+//     col = selectCol();
+//     row = selectRow();
+//
+//     if(grid.at(row).at(col).getPieceColor() == "white" || grid.at(row).at(col).getPieceColor() == "black"){
+//       grid.at(row).at(col).setPieceSelected(true);
+//       selecting = false;
+//     }
+//
+//     else{
+//       Canvas::drawBoard();
+//       cout << "\n Please choose a square with one of your pieces." << endl;
+//       cout << " Press Enter to select again." << endl;
+//       cin.clear();
+//       cin.ignore();
+//       cin.ignore();
+//       Canvas::drawBoard();
+//     }
+//   }
+//
+//   return grid.at(row).at(col);
+//
+// }
 
 int Board::selectRow(){
   int row;

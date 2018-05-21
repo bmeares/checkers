@@ -1,6 +1,6 @@
 
-#ifndef PLAYER_H
-#define PLAYER_H 1
+#ifndef AI_H
+#define AI_H 1
 
 #include <iostream>
 #include <string>
@@ -10,19 +10,17 @@
 
 using namespace std;
 
-class Player{
+class AI{
   private:
     static string choice;
 
   public:
 
-    static bool yesOrNo();
-    static void clearSave();
     static void turn();
     static void chooseMove(Square&, vector<Square>);
     static Square& select();
 
-    Player();
-    ~Player();
+    AI();
+    ~AI();
 };
 #endif

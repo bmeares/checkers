@@ -1,16 +1,13 @@
 #include "Square.h"
 
 ostream& operator << (ostream& out, Square& square) {
-  //out <<
 
-  if(square.hasPiece() || square.getPieceColor() == "des"){
+  if(square.hasPiece() || square.getPieceDes()){
     out << square.piece;
   }
   else{
     if(square.getColor() == "black"){
       out << "\u2588\u2588";
-//      out << "\u2588";
-//      out << "\u2588";
     }
     else if(square.getColor() == "white"){
       out << "  ";

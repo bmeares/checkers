@@ -23,7 +23,7 @@ class Board{
 
     static matrix& Grid(){return grid;}
     static void populate();
-    static Square& selectFromSquare();
+//    static Square& selectFromSquare(int, int);
     static Square& selectToSquare();
     static int selectRow();
     static int selectCol();

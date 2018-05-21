@@ -5,6 +5,7 @@
 #include <string>
 #include <iomanip>
 #include "../Player/Player.h"
+#include "../Player/AI.h"
 #include "../Board/Board.h"
 #include "../Canvas/Canvas.h"
 
@@ -12,11 +13,18 @@ using namespace std;
 
 namespace Mechanics{
 
-  void playerTurn();
   bool gameState();
-  vector<Square> findPossibleMoves(Square&);
-  void chooseMove(Square&, vector<Square>);
+  bool runAgain();
+  vector<Square> findPossibleMoves(Square&, string);
+  bool hasMoves(vector<Square>&);
+  void move(Square&, vector<Square>, string, int);
 
+  void readSave(fstream&);
+  void writeSave(fstream&);
+  void clearSave();
+  bool jumpTests(string, Square&, int, int, int, string, bool);
+  bool canJumpL(bool, bool, bool, bool);
+  bool canJumpR(bool, bool, bool, bool);
 }
 
 #endif

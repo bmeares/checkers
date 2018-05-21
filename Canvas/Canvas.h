@@ -11,14 +11,13 @@
 using namespace std;
 
 namespace Canvas{
-//  private:
 
-//  public:
     void clearScreen();
     void drawBoard();
-//    bool gameState();
+    void chooseAvailableMessage();
+    void nowPlaying();
 
-//    Canvas();
-//    ~Canvas();
+    extern string playing;
+
 }
 #endif

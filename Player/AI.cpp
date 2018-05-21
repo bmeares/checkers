@@ -1,25 +1,9 @@
-#include "Player.h"
+#include "AI.h"
 
-string Player::choice = "";
+string AI::choice = "";
 
-bool Player::yesOrNo(){
-
-  cin >> choice;
-
-  bool intent = false;
-  if(choice == "y" || choice == "Yes" || choice == "yes" || choice == "Y"
-  || choice == "YES" || choice == "1" || choice == "YASS"){
-    intent = true;
-  }
-  else{
-    choice = "";
-    intent = false;
-  }
-  return intent;
-}
-
-void Player::turn(){
-  Canvas::playing = "Player 1";
+void AI::turn(){
+  Canvas::playing = "Player 2";
   Canvas::drawBoard();
   bool runagain = true;
   Square fromSqr;
@@ -27,15 +11,12 @@ void Player::turn(){
 
   while(runagain){
     fromSqr = select();
-    availMoves = Mechanics::findPossibleMoves(fromSqr, "player");
+    availMoves = Mechanics::findPossibleMoves(fromSqr, "ai");
     runagain = !(Mechanics::hasMoves(availMoves));
 
     if(runagain){
-//      fromSqr.setPieceColor("white");
-      Board::Grid().at(fromSqr.getRow()).at(fromSqr.getCol()).setPieceSelected(false);
-//      fromSqr.setPieceSelected(false);
       Canvas::chooseAvailableMessage();
-      //fromSqr.setPieceColor("white");
+      fromSqr.setPieceColor("black");
       Canvas::drawBoard();
     }
   }
@@ -44,16 +25,15 @@ void Player::turn(){
   Canvas::drawBoard();
 }
 
-void Player::chooseMove(Square& fromSqr, vector<Square> availMoves){
+void AI::chooseMove(Square& fromSqr, vector<Square> availMoves){
   int option;
   cout << "Choose which move you would like to make (number): ";
   cin >> option;
-  Mechanics::move(fromSqr, availMoves, "white", option);
+  Mechanics::move(fromSqr, availMoves, "black", option);
 }
 
-Square& Player::select(){
+Square& AI::select(){
   cout << "Select which piece to move.\n" << endl;
-
   int col = 0;
   int row = 0;
 
@@ -82,5 +62,5 @@ Square& Player::select(){
   return Board::Grid().at(row).at(col);
 }
 
-Player::Player(){}
-Player::~Player(){}
+AI::AI(){}
+AI::~AI(){}

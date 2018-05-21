@@ -5,7 +5,7 @@ void Menu::printMenu(){
 }
 
 bool Menu::startGame(){
-  double version = 0.02;
+  double version = 0.05;
   Canvas::clearScreen();
   cout << "\n Welcome to Simple Checkers! You're playing version "
     << fixed << setprecision(2) << version << ".";

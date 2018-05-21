@@ -7,6 +7,7 @@ void Canvas::clearScreen(){
 
 void Canvas::drawBoard(){
   clearScreen();
+  nowPlaying();
 
   int numLabel = 8;
   char letterLabel = 'A';
@@ -30,13 +31,26 @@ void Canvas::drawBoard(){
   cout << endl;
 }
 
-// bool Canvas::gameState(){
-//   clearScreen();
-//   drawBoard();
-//   Mechanics::playerTurn();
-//
-//   cout << "Run again? ";
-//
-//   return Player::yesOrNo();
-//
-// }
+void Canvas::chooseAvailableMessage(){
+  Canvas::drawBoard();
+  cout << "\n Please choose a piece with available moves." << endl;
+  cout << "\n Press Enter to choose another piece.";
+  cin.clear();
+  cin.ignore();
+  cin.ignore();
+  Canvas::drawBoard();
+}
+
+string Canvas::playing = "Player 1";
+
+void Canvas::nowPlaying(){
+  cout << " ";
+  for(int i = 0; i < 25; i++){
+    cout << "\u2014";
+  }
+  cout << "\n | NOW PLAYING: " << playing << " |"<< endl;
+  cout << " ";
+  for(int i = 0; i < 25; i++){
+    cout << "\u2014";
+  }
+}

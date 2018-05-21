@@ -13,6 +13,8 @@ class Piece{
     int x;
     int y;
     int option;
+    bool selected;
+    bool des;
 
   public:
 
@@ -24,6 +26,10 @@ class Piece{
     int Y();
     void setOption(int o){this->option = o;}
     int getOption(){return this->option;}
+    void setSelected(bool sel){this->selected = sel;}
+    bool getSelected(){return this->selected;}
+    void setDes(bool d){this->des = d;}
+    bool getDes(){return this->des;}
 
     friend ostream& operator<<(ostream&, Piece&);
 
