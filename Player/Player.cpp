@@ -19,7 +19,7 @@ bool Player::yesOrNo(){
 }
 
 void Player::turn(){
-  Canvas::playing = "Player 1";
+  Canvas::playing = "P1";
   Canvas::drawBoard();
   bool runagain = true;
   Square fromSqr;
@@ -31,16 +31,15 @@ void Player::turn(){
     runagain = !(Mechanics::hasMoves(availMoves));
 
     if(runagain){
-//      fromSqr.setPieceColor("white");
       Board::Grid().at(fromSqr.getRow()).at(fromSqr.getCol()).setPieceSelected(false);
-//      fromSqr.setPieceSelected(false);
       Canvas::chooseAvailableMessage();
-      //fromSqr.setPieceColor("white");
       Canvas::drawBoard();
     }
   }
 
   chooseMove(fromSqr, availMoves);
+  Canvas::playing = "P2";
+
   Canvas::drawBoard();
 }
 

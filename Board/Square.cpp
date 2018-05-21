@@ -20,11 +20,11 @@ ostream& operator << (ostream& out, Square& square) {
 }
 
 Square::Square(bool hasPiece, string clr, Piece pc) : pieceStatus(hasPiece),
-  color(clr), piece(pc){}
+  color(clr), piece(pc), isJump(false){}
 
 Square::Square(bool hasPiece, string clr) : pieceStatus(hasPiece),
-    color(clr){}
+    color(clr), isJump(false){}
 
-Square::Square(){}
+Square::Square() : pieceStatus(false), color("white"), piece(Piece("none")){}
 
 Square::~Square(){}

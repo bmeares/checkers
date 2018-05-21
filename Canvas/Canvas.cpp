@@ -41,16 +41,16 @@ void Canvas::chooseAvailableMessage(){
   Canvas::drawBoard();
 }
 
-string Canvas::playing = "Player 1";
+string Canvas::playing = "P1";
 
 void Canvas::nowPlaying(){
   cout << " ";
-  for(int i = 0; i < 25; i++){
+  for(int i = 0; i < 19; i++){
     cout << "\u2014";
   }
   cout << "\n | NOW PLAYING: " << playing << " |"<< endl;
   cout << " ";
-  for(int i = 0; i < 25; i++){
+  for(int i = 0; i < 19; i++){
     cout << "\u2014";
   }
 }

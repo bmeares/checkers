@@ -16,6 +16,7 @@ class Square{
     Piece piece;
     int row;
     int col;
+    bool isJump;
 
   public:
 
@@ -40,6 +41,10 @@ class Square{
     bool getPieceSelected(){return this->piece.getSelected();}
     void setPieceDes(bool d){this->piece.setDes(d);}
     bool getPieceDes(){return this->piece.getDes();}
+    void setJumpStatus(bool j){this->isJump = j;}
+    bool getJumpStatus(){return this->isJump;}
+    void setPieceKing(bool k){this->piece.setKingStatus(k);}
+    bool getPieceKing(){return this->piece.getKingStatus();}
 
     friend ostream& operator<<(ostream&, Square&);
     Square();

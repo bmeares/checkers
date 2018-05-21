@@ -3,7 +3,7 @@
 string AI::choice = "";
 
 void AI::turn(){
-  Canvas::playing = "Player 2";
+  Canvas::playing = "P2";
   Canvas::drawBoard();
   bool runagain = true;
   Square fromSqr;
@@ -15,13 +15,15 @@ void AI::turn(){
     runagain = !(Mechanics::hasMoves(availMoves));
 
     if(runagain){
+      Board::Grid().at(fromSqr.getRow()).at(fromSqr.getCol()).setPieceSelected(false);
       Canvas::chooseAvailableMessage();
-      fromSqr.setPieceColor("black");
       Canvas::drawBoard();
     }
   }
 
   chooseMove(fromSqr, availMoves);
+  Canvas::playing = "P1";
+  
   Canvas::drawBoard();
 }
 

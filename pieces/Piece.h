@@ -15,6 +15,7 @@ class Piece{
     int option;
     bool selected;
     bool des;
+    bool isKing;
 
   public:
 
@@ -30,6 +31,8 @@ class Piece{
     bool getSelected(){return this->selected;}
     void setDes(bool d){this->des = d;}
     bool getDes(){return this->des;}
+    void setKingStatus(bool k){this->isKing = k;}
+    bool getKingStatus(){return this->isKing;}
 
     friend ostream& operator<<(ostream&, Piece&);
 
