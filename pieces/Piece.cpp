@@ -9,6 +9,12 @@ ostream& operator << (ostream& out, Piece& piece) {
   if(piece.des)
     out << "*" << piece.option;
 
+  else if(piece.isKing && piece.color == "white")
+    out << "@K";
+
+  else if(piece.isKing && piece.color == "black")
+    out << "#K";
+
   else if(piece.selected)
     out << "[]";
 

@@ -23,8 +23,9 @@ Square::Square(bool hasPiece, string clr, Piece pc) : pieceStatus(hasPiece),
   color(clr), piece(pc), isJump(false){}
 
 Square::Square(bool hasPiece, string clr) : pieceStatus(hasPiece),
-    color(clr), isJump(false){}
+  color(clr), isJump(false){}
 
-Square::Square() : pieceStatus(false), color("white"), piece(Piece("none")){}
+Square::Square() : pieceStatus(false), color("white"), piece(Piece("none")),
+  isJump(false){}
 
 Square::~Square(){}

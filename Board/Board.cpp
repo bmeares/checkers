@@ -103,22 +103,72 @@ void Board::populate(){
 
 int Board::selectRow(){
   int row;
-  cout << "Choose a row (number): ";
-  cin >> row;
+  bool running = true;
+
+  while(running){
+
+    running = false;
+    cout << "Choose a row (number): ";
+    cin >> row;
+
+    if(row < 1 || row > 8 || cin.fail()){
+      cout << "\nPlease choose a valid row." << endl;
+      cout << "Enter any key to choose again." << endl;
+      running = true;
+      cin.clear();
+      cin.ignore();
+      cin.ignore();
+      Canvas::drawBoard();
+    }
+  }
+
   row = (8 - row);
+
   return row;
 }
 
 int Board::selectCol(){
   int col;
   char letter;
+  bool running = true;
 
-  cout << "Choose a column (letter): ";
-  cin >> letter;
+  while(running){
 
-  letter = toupper(letter);
-  letter -= 65;
-  col = letter;
+    running = false;
+    cout << "Choose a column (letter): ";
+    cin >> letter;
+
+    if(letter == 'q' || letter == 'Q'){
+      running = !Menu::quit();
+    }
+
+    if(letter == 'r' || letter == 'R'){
+      Board::populate();
+      Mechanics::clearSave();
+      Canvas::clearScreen();
+      cout << "\n Game has been reset." << endl;
+      cout << "\n Press any key to start a new game." << endl;
+      cin.ignore();
+      cin.ignore();
+      running = true;
+    }
+
+    else if(toupper(letter) < 'A' || toupper(letter) > 'H'){
+      cout << "\nPlease choose a valid column." << endl;
+      cout << "Enter any key to choose again." << endl;
+      running = true;
+      cin.clear();
+      cin.ignore();
+      cin.ignore();
+    }
+
+    letter = toupper(letter);
+    letter -= 65;
+    col = letter;
+
+    if(running)
+      Canvas::drawBoard();
+  }
 
   return col;
 }

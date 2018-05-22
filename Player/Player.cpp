@@ -19,7 +19,7 @@ bool Player::yesOrNo(){
 }
 
 void Player::turn(){
-  Canvas::playing = "P1";
+  Canvas::playing = "@@";
   Canvas::drawBoard();
   bool runagain = true;
   Square fromSqr;
@@ -28,6 +28,7 @@ void Player::turn(){
   while(runagain){
     fromSqr = select();
     availMoves = Mechanics::findPossibleMoves(fromSqr, "player");
+
     runagain = !(Mechanics::hasMoves(availMoves));
 
     if(runagain){
@@ -38,7 +39,7 @@ void Player::turn(){
   }
 
   chooseMove(fromSqr, availMoves);
-  Canvas::playing = "P2";
+  Canvas::playing = "##";
 
   Canvas::drawBoard();
 }
@@ -51,7 +52,8 @@ void Player::chooseMove(Square& fromSqr, vector<Square> availMoves){
 }
 
 Square& Player::select(){
-  cout << "Select which piece to move.\n" << endl;
+  cout << "Select which piece to move," << endl;
+  cout << "   or enter q to quit.\n" << endl;
 
   int col = 0;
   int row = 0;
@@ -62,7 +64,7 @@ Square& Player::select(){
     col = Board::selectCol();
     row = Board::selectRow();
 
-    if(Board::Grid().at(row).at(col).getPieceColor() == "white" || Board::Grid().at(row).at(col).getPieceColor() == "black"){
+    if(Board::Grid().at(row).at(col).getPieceColor() == "white" ){
       Board::Grid().at(row).at(col).setPieceSelected(true);
       selecting = false;
     }

@@ -3,7 +3,7 @@
 string AI::choice = "";
 
 void AI::turn(){
-  Canvas::playing = "P2";
+  Canvas::playing = "##";
   Canvas::drawBoard();
   bool runagain = true;
   Square fromSqr;
@@ -22,8 +22,8 @@ void AI::turn(){
   }
 
   chooseMove(fromSqr, availMoves);
-  Canvas::playing = "P1";
-  
+  Canvas::playing = "@@";
+
   Canvas::drawBoard();
 }
 
@@ -35,7 +35,8 @@ void AI::chooseMove(Square& fromSqr, vector<Square> availMoves){
 }
 
 Square& AI::select(){
-  cout << "Select which piece to move.\n" << endl;
+  cout << "Select which piece to move," << endl;
+  cout << "   or enter q to quit.\n" << endl;
   int col = 0;
   int row = 0;
 
@@ -45,7 +46,7 @@ Square& AI::select(){
     col = Board::selectCol();
     row = Board::selectRow();
 
-    if(Board::Grid().at(row).at(col).getPieceColor() == "white" || Board::Grid().at(row).at(col).getPieceColor() == "black"){
+    if(Board::Grid().at(row).at(col).getPieceColor() == "black"){
       Board::Grid().at(row).at(col).setPieceSelected(true);
       selecting = false;
     }

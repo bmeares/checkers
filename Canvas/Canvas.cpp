@@ -41,7 +41,7 @@ void Canvas::chooseAvailableMessage(){
   Canvas::drawBoard();
 }
 
-string Canvas::playing = "P1";
+string Canvas::playing = "@@";
 
 void Canvas::nowPlaying(){
   cout << " ";

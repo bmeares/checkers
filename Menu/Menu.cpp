@@ -5,7 +5,7 @@ void Menu::printMenu(){
 }
 
 bool Menu::startGame(){
-  double version = 0.10;
+  double version = 0.20;
   Canvas::clearScreen();
   cout << "\n Welcome to Simple Checkers! You're playing version "
     << fixed << setprecision(2) << version << ".";
@@ -15,7 +15,18 @@ bool Menu::startGame(){
   return true;
 }
 
+bool Menu::quit(){
+  Canvas::clearScreen();
+  cout << "\n Your game has been saved." << endl;
+  cout << "\n Quit game? ";
 
+  bool no = Player::yesOrNo();
+
+  if(no)
+    exit(1);
+
+  return no;
+}
 
 
 Menu::Menu(){}

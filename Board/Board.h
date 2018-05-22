@@ -8,6 +8,7 @@
 #include "../pieces/Piece.h"
 #include "Square.h"
 #include "../Canvas/Canvas.h"
+#include "../Menu/Menu.h"
 
 //#include <iomanip>
 

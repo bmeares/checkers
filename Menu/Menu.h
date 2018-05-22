@@ -14,6 +14,7 @@ class Menu{
   public:
     static void printMenu();
     static bool startGame();
+    static bool quit();
 
     Menu();
     ~Menu();
