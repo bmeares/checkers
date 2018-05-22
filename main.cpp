@@ -24,3 +24,6 @@ int main() {
 
   return 0;
 }
+
+//TODO bug when moving King down and left
+//TODO bug when jumping right
