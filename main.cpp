@@ -8,13 +8,8 @@ using namespace std;
 
 int main() {
 
-  fstream save;
-  save.open("board.save", fstream::in | fstream::out | std::ios_base::app);
-
   bool running = Menu::startGame();
-  //Mechanics::clearSave();
-  Mechanics::readSave(save);
-  save.close();
+  Menu::readSave();
   do{
 
     running = Mechanics::gameState();
@@ -25,5 +20,5 @@ int main() {
   return 0;
 }
 
-//TODO bug when moving King down and left
-//TODO bug when jumping right
+// TODO difficulty
+// TODO king jump down left not working, check availMoves and JumpSqrs sync

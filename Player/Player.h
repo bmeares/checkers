@@ -13,6 +13,8 @@ using namespace std;
 class Player{
   private:
     static string choice;
+    static vector<Square> remainingSqrs;
+    static int numPieces;
 
   public:
 
@@ -21,6 +23,11 @@ class Player{
     static void turn();
     static void chooseMove(Square&, vector<Square>);
     static Square& select();
+    static void addSqr(Square&);
+    static vector<Square>& getRemainingSqrs(){return remainingSqrs;}
+    static void setNumPieces(int n){numPieces = n;}
+    static int getNumPieces(){return numPieces;}
+    static void decreaseNumPieces(){numPieces--;}
 
     Player();
     ~Player();

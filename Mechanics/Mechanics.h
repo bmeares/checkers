@@ -15,16 +15,11 @@ using namespace std;
 namespace Mechanics{
 
   bool gameState();
-  bool runAgain();
   vector<Square> findPossibleMoves(Square&, string);
   vector<Square> findKingMoves(Square&, string);
   vector<Square> fillKingAvail(Square&, int, int, string, int);
   bool hasMoves(vector<Square>&);
   void move(Square&, vector<Square>, string, int);
-
-  void readSave(fstream&);
-  void writeSave(fstream&);
-  void clearSave();
 
   bool jumpTests(string, Square&, int, int, int, string, bool);
   bool canJumpL(bool, bool, bool, bool);
@@ -34,6 +29,9 @@ namespace Mechanics{
   bool atEdge(int);
   void resetJumpSqrs();
   void fixOptionLabels(vector<Square>);
+  void syncAvailandJump(vector<Square>);
+  void delJumpedSqr(int, int);
+  //bool canDoubleJumpL();
 
   extern vector<Square> JumpSqrs;
 //  extern Square JumpedSqr;

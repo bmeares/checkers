@@ -13,6 +13,11 @@ void Board::populate(){
   int place = 0;
 
   grid.resize(16);
+  AI::getRemainingSqrs().resize(12);
+  Player::getRemainingSqrs().resize(12);
+
+  AI::setNumPieces(12);
+  Player::setNumPieces(12);
 
   for(int i = 0; i < 8; i++){
     grid.at(i).resize(16);
@@ -44,21 +49,24 @@ void Board::populate(){
     }
   }
 
+  int k = 0;
   /*Fill board with pieces*/
   for(int i = 0; i < 3; i++){
     for(int j = 0; j < 8; j++){
       if(grid.at(i).at(j).getColor() == "white"){
         grid.at(i).at(j).setPiece(Piece("black"));
         grid.at(i).at(j).setPieceStatus(true);
+        AI::getRemainingSqrs().at(k) = grid.at(i).at(j);
       }
     }
   }
-
+  k = 0;
   for(int i = 5; i < 8; i++){
     for(int j = 0; j < 8; j++){
       if(grid.at(i).at(j).getColor() == "white"){
         grid.at(i).at(j).setPiece(Piece("white"));
         grid.at(i).at(j).setPieceStatus(true);
+        AI::getRemainingSqrs().at(k) = grid.at(i).at(j);
       }
     }
   }
@@ -69,37 +77,7 @@ void Board::populate(){
         grid.at(i).at(j).setPieceColor("none");
     }
   }
-
 }
-
-// Square& Board::selectFromSquare(){
-//
-//   bool selecting = true;
-//
-//   while(selecting){
-//
-//     col = selectCol();
-//     row = selectRow();
-//
-//     if(grid.at(row).at(col).getPieceColor() == "white" || grid.at(row).at(col).getPieceColor() == "black"){
-//       grid.at(row).at(col).setPieceSelected(true);
-//       selecting = false;
-//     }
-//
-//     else{
-//       Canvas::drawBoard();
-//       cout << "\n Please choose a square with one of your pieces." << endl;
-//       cout << " Press Enter to select again." << endl;
-//       cin.clear();
-//       cin.ignore();
-//       cin.ignore();
-//       Canvas::drawBoard();
-//     }
-//   }
-//
-//   return grid.at(row).at(col);
-//
-// }
 
 int Board::selectRow(){
   int row;
@@ -142,12 +120,25 @@ int Board::selectCol(){
       running = !Menu::quit();
     }
 
-    if(letter == 'r' || letter == 'R'){
+    else if(letter == 'r' || letter == 'R'){
       Board::populate();
-      Mechanics::clearSave();
+      Menu::clearSave();
       Canvas::clearScreen();
-      cout << "\n Game has been reset." << endl;
+      cout << "\n Board has been reset." << endl;
       cout << "\n Press any key to start a new game." << endl;
+      cout << " Note that you now have the first move." << endl;
+      cin.clear();
+      cin.ignore();
+      cin.ignore();
+      running = true;
+    }
+
+    else if(letter == 'l' || letter == 'L'){
+      Menu::readSave();
+      Canvas::clearScreen();
+      cout << "\n Board has been loaded." << endl;
+      cout << "\n Press any key to resume the saved game." << endl;
+      //cout << " Note that you now have the first move." << endl;
       cin.ignore();
       cin.ignore();
       running = true;
@@ -165,6 +156,7 @@ int Board::selectCol(){
     letter = toupper(letter);
     letter -= 65;
     col = letter;
+    Canvas::reset = false;
 
     if(running)
       Canvas::drawBoard();

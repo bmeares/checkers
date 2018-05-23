@@ -18,6 +18,7 @@ namespace Canvas{
     void nowPlaying();
 
     extern string playing;
+    extern bool reset;
 
 }
 #endif

@@ -7,6 +7,7 @@ void Canvas::clearScreen(){
 
 void Canvas::drawBoard(){
   clearScreen();
+  clearScreen();
   nowPlaying();
 
   int numLabel = 8;
@@ -42,6 +43,7 @@ void Canvas::chooseAvailableMessage(){
 }
 
 string Canvas::playing = "@@";
+bool Canvas::reset = false;
 
 void Canvas::nowPlaying(){
   cout << " ";

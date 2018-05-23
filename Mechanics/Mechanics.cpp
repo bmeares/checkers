@@ -4,32 +4,41 @@ bool Mechanics::gameState(){
   Canvas::clearScreen();
   Canvas::drawBoard();
   bool playing = true;
-  fstream save;
+  //fstream save;
 
   while(playing){
 
 //    readSave(save);
 
+    if(Player::getNumPieces() < 1){
+      Canvas::clearScreen();
+      cout << "\n GAME OVER\n" << endl;
+      cout << " ## wins!" << endl;
+      playing = Menu::runAgain();
+    }
+    else if(AI::getNumPieces() < 1){
+      Canvas::clearScreen();
+      cout << "\n GAME OVER\n" << endl;
+      cout << " @@ wins!\n" << endl;
+      playing = Menu::runAgain();
+    }
+
     if(Canvas::playing == "@@"){
       Player::turn();
-      clearSave();
-      save.open("board.save", fstream::in | fstream::out | std::ios_base::app);
-      writeSave(save);
-      save.close();
+      Menu::clearSave();
+      Menu::writeSave();
     }
 
     if(Canvas::playing == "##"){
       AI::turn();
-      clearSave();
-      save.open("board.save", fstream::in | fstream::out | std::ios_base::app);
-      writeSave(save);
-      save.close();
+      Menu::clearSave();
+      Menu::writeSave();
     }
 
 
   }
 
-  return runAgain();
+  return playing;
 }
 
 vector<Square> Mechanics::JumpSqrs = {Square(), Square(), Square(), Square()};
@@ -63,67 +72,94 @@ vector<Square> Mechanics::findPossibleMoves(Square& fromSqr, string player){
   oneFromEdge = atOneFromEdge(rowTwoAbove);
   onEdge = atEdge(rowAbove);
 
-  for(int i = 0; i < 8; i++){
-
-    if(!onEdge){
-
-      isWhite = (Board::Grid().at(rowAbove).at(i).getColor()
-        == "white");
-      hasPiece = (Board::Grid().at(rowAbove).at(i).hasPiece());
-      withinColRange = ((Board::Grid().at(rowAbove).at(i).getCol()
-       - fromSqr.getCol() == 1) || (Board::Grid().at(rowAbove).at(i).getCol()
-       - fromSqr.getCol() == -1));
-
-
-      jumpL = jumpTests("left", fromSqr, rowAbove, rowTwoAbove, i, player, withinColRange);
-      jumpR = jumpTests("right", fromSqr, rowAbove, rowTwoAbove, i, player, withinColRange);
-    }
-
-    if(isWhite && !hasPiece && withinColRange && !onEdge){
-      Board::Grid().at(rowAbove).at(i).setPieceDes(true);
-      Board::Grid().at(rowAbove).at(i).setPieceOption(option);
-      availMoves.push_back(Board::Grid().at(rowAbove).at(i));
-      option++;
-    }
-
-    if(jumpL && !oneFromEdge && !onEdge){
-      Board::Grid().at(rowTwoAbove).at(i - 1).setPieceDes(true);
-      Board::Grid().at(rowTwoAbove).at(i - 1).setPieceOption(option);
-      Board::Grid().at(rowTwoAbove).at(i - 1).setJumpStatus(true);
-
-      int j = 0;
-      while(JumpSqrs.at(j).getJumpStatus()){
-         j++;
-      }
-      JumpSqrs.at(j) = Board::Grid().at(rowAbove).at(i);
-      JumpSqrs.at(j).setJumpStatus(true);
-      Board::Grid().at(rowAbove).at(i).setJumpStatus(true);
-
-      availMoves.push_back(Board::Grid().at(rowTwoAbove).at(i - 1));
-      option++;
-    }
-    if(jumpR && !oneFromEdge && !onEdge){
-      Board::Grid().at(rowTwoAbove).at(i + 1).setPieceDes(true);
-      Board::Grid().at(rowTwoAbove).at(i + 1).setPieceOption(option);
-      Board::Grid().at(rowTwoAbove).at(i + 1).setJumpStatus(true);
-      int j = 0;
-      while(JumpSqrs.at(j).getJumpStatus()){
-         j++;
-      }
-      JumpSqrs.at(j) = Board::Grid().at(rowAbove).at(i);
-      JumpSqrs.at(j).setJumpStatus(true);
-      Board::Grid().at(rowAbove).at(i).setJumpStatus(true);
-
-      availMoves.push_back(Board::Grid().at(rowTwoAbove).at(i + 1));
-      option++;
-    }
-  }
-
   if(isKing){
     availMoves = findKingMoves(fromSqr, player);
   }
 
+  else{
+
+    for(int i = 0; i < 8; i++){
+//      cout << "Testing " << rowTwoAbove << ", " << i << endl;
+
+      if(!onEdge){
+
+//        cout << "isWhite" << endl;
+        isWhite = (Board::Grid().at(rowAbove).at(i).getColor()
+          == "white");
+//        cout << "hasPiece" << endl;
+        hasPiece = (Board::Grid().at(rowAbove).at(i).hasPiece());
+//        cout << "withinColRange" << endl;
+        withinColRange = ((Board::Grid().at(rowAbove).at(i).getCol()
+         - fromSqr.getCol() == 1) || (Board::Grid().at(rowAbove).at(i).getCol()
+         - fromSqr.getCol() == -1));
+
+//        cout << "jumpTests" << endl;
+        jumpL = jumpTests("left", fromSqr, rowAbove, rowTwoAbove, i, player, withinColRange);
+        jumpR = jumpTests("right", fromSqr, rowAbove, rowTwoAbove, i, player, withinColRange);
+//        cout << "Done with tests" << endl;
+      }
+
+      if(isWhite && !hasPiece && withinColRange && !onEdge){
+        Board::Grid().at(rowAbove).at(i).setPieceDes(true);
+        Board::Grid().at(rowAbove).at(i).setPieceOption(option);
+        availMoves.push_back(Board::Grid().at(rowAbove).at(i));
+        option++;
+      }
+
+      if(jumpL && !oneFromEdge && !onEdge){
+        Board::Grid().at(rowTwoAbove).at(i - 1).setPieceDes(true);
+        Board::Grid().at(rowTwoAbove).at(i - 1).setPieceOption(option);
+        Board::Grid().at(rowTwoAbove).at(i - 1).setJumpStatus(true);
+
+        int j = 0;
+        while(JumpSqrs.at(j).getJumpStatus()){
+           j++;
+        }
+        JumpSqrs.at(j) = Board::Grid().at(rowAbove).at(i);
+        JumpSqrs.at(j).setJumpStatus(true);
+        Board::Grid().at(rowAbove).at(i).setJumpStatus(true);
+
+        availMoves.push_back(Board::Grid().at(rowTwoAbove).at(i - 1));
+        option++;
+      }
+
+      if(jumpR && !oneFromEdge && !onEdge){
+        Board::Grid().at(rowTwoAbove).at(i + 1).setPieceDes(true);
+        Board::Grid().at(rowTwoAbove).at(i + 1).setPieceOption(option);
+        Board::Grid().at(rowTwoAbove).at(i + 1).setJumpStatus(true);
+
+        int j = 0;
+        while(JumpSqrs.at(j).getJumpStatus()){
+           j++;
+        }
+        JumpSqrs.at(j) = Board::Grid().at(rowAbove).at(i);
+        JumpSqrs.at(j).setJumpStatus(true);
+        Board::Grid().at(rowAbove).at(i).setJumpStatus(true);
+
+        availMoves.push_back(Board::Grid().at(rowTwoAbove).at(i + 1));
+        option++;
+      }
+
+    //    cout << "Board::Grid().at(rowTwoAbove).at(i).getJumpStatus() is " << Board::Grid().at(rowTwoAbove).at(i).getJumpStatus() << endl;
+    }
+  }
+
+
+
+
+
+  syncAvailandJump(availMoves); //TODO
+
   fixOptionLabels(availMoves);
+
+//   for(uint i = 0; i < availMoves.size(); i++){
+// //    cout << "availMoves.at(i).getPieceOption() is " << availMoves.at(i).getPieceOption() << endl;
+//     cout << "availMoves at " << i << " jump status is " << availMoves.at(i).getJumpStatus() << endl;
+//   }
+//
+//   for(uint i = 0; i < JumpSqrs.size(); i++){
+//     cout << "JumpSqrs at " << i << " jump status is " << JumpSqrs.at(i).getJumpStatus() << endl;
+//   }
 
   Canvas::drawBoard();
   return availMoves;
@@ -170,7 +206,7 @@ vector<Square> Mechanics::findKingMoves(Square& fromSqr, string player){
   else{
     availMoves = fillKingAvail(fromSqr, rowAbove, rowTwoAbove, player, 1);
     vector<Square> availBottom = fillKingAvail(fromSqr, rowBelow, rowTwoBelow, player, availMoves.size());
-    availMoves.insert(availMoves.end(),availBottom.begin(), availBottom.end());
+    availMoves.insert(availMoves.end(), availBottom.begin(), availBottom.end());
   }
 
   return availMoves;
@@ -187,13 +223,6 @@ vector<Square> Mechanics::fillKingAvail(Square& fromSqr, int singleRow, int doub
   bool jumpL = false;
   bool jumpR = false;
   vector<Square> availMoves;
-  //int rowAbove = fromSqr.getRow() - 1;
-  //int rowTwoAbove = fromSqr.getRow() - 2;
-  //int rowBelow = fromSqr.getRow() + 1;
-  //int rowTwoBelow = fromSqr.getRow() + 2;
-//  int singleRow = 0;
-//  int doubleRow = 0;
-  //int option = 1;
 
   for(int i = 0; i < 8; i++){
     isWhite = (Board::Grid().at(singleRow).at(i).getColor()
@@ -274,6 +303,10 @@ bool Mechanics::canJumpR(bool whiteSqr, bool oneColAway, bool twoColAwayOpen, bo
   return canJumpRight;
 }
 
+// bool Mechanics::canDoubleJumpL(){
+//
+// }
+
 bool Mechanics::jumpTests(string side, Square& fromSqr, int rowAbove, int rowTwoAbove, int i, string player, bool withinColRange){
   bool opposite = false;
   bool whiteSqr = false;
@@ -288,8 +321,6 @@ bool Mechanics::jumpTests(string side, Square& fromSqr, int rowAbove, int rowTwo
 
   oneFromEdge = atOneFromEdge(rowTwoAbove);
   onEdge = atEdge(rowAbove);
-
-  cout << "Inside jumpTests! about to call tests..." << endl;
 
   if(!oneFromEdge && !onEdge){
     if((player == "player" && Board::Grid().at(rowAbove).at(i).getPieceColor() == "black")
@@ -353,6 +384,8 @@ void Mechanics::move(Square& fromSqr, vector<Square> availMoves, string color, i
   Board::Grid().at(fromRow).at(fromCol).setPieceSelected(false);
   Board::Grid().at(fromRow).at(fromCol).setPieceDes(false);
   Board::Grid().at(fromRow).at(fromCol).setPieceStatus(false);
+  Board::Grid().at(fromRow).at(fromCol).setPieceKing(false);
+  Board::Grid().at(fromRow).at(fromCol).setPieceColor("none");
   Board::Grid().at(fromRow).at(fromCol).setColor("white");
 
   /* Set new space to fromSqr*/
@@ -364,10 +397,7 @@ void Mechanics::move(Square& fromSqr, vector<Square> availMoves, string color, i
 
   /* Delete jumped piece */
   if(Board::Grid().at(choiceRow).at(choiceCol).getJumpStatus()){
-    Board::Grid().at(jumpedRow).at(jumpedCol).setPieceDes(false);
-    Board::Grid().at(jumpedRow).at(jumpedCol).setPieceStatus(false);
-    Board::Grid().at(jumpedRow).at(jumpedCol).setPieceSelected(false);
-    Board::Grid().at(jumpedRow).at(jumpedCol).setPieceColor("none");
+    delJumpedSqr(jumpedRow, jumpedCol);
   }
 
   if(hasKing(color, availMoves, option)){ //TODO
@@ -375,6 +405,21 @@ void Mechanics::move(Square& fromSqr, vector<Square> availMoves, string color, i
   }
 
   resetJumpSqrs();
+}
+
+void Mechanics::delJumpedSqr(int jumpedRow, int jumpedCol){
+  if(Board::Grid().at(jumpedRow).at(jumpedCol).getPieceColor() == "white"){
+    Player::decreaseNumPieces();
+  }
+  else if(Board::Grid().at(jumpedRow).at(jumpedCol).getPieceColor() == "black"){
+    AI::decreaseNumPieces();
+  }
+  Board::Grid().at(jumpedRow).at(jumpedCol).setPieceDes(false);
+  Board::Grid().at(jumpedRow).at(jumpedCol).setPieceStatus(false);
+  Board::Grid().at(jumpedRow).at(jumpedCol).setPieceSelected(false);
+  Board::Grid().at(jumpedRow).at(jumpedCol).setPieceColor("none");
+  Board::Grid().at(jumpedRow).at(jumpedCol).setJumpStatus(false);
+  Board::Grid().at(jumpedRow).at(jumpedCol).setPieceKing(false);
 }
 
 bool Mechanics::hasKing(string color, vector<Square> availMoves, int option){
@@ -421,152 +466,48 @@ void Mechanics::fixOptionLabels(vector<Square> availMoves){
   }
 }
 
-bool Mechanics::runAgain(){
-  cout << "Run again? ";
-  bool runagain = Player::yesOrNo();
-  if(runagain){
-    Board::populate();
-    Canvas::drawBoard();
-  }
-  return runagain;
-}
+void Mechanics::syncAvailandJump(vector<Square> availMoves){
+  // for(uint i = 0; i < availMoves.size(); i++){
+  //   Square tempSqr;
+  //   if(availMoves.at(i).getJumpStatus()){
+  //     for(uint j; j < JumpSqrs.size(); j++){
+  //       if(JumpSqrs.at(j).getJumpStatus()){
+  //         tempSqr = JumpSqrs.at(j);
+  //         JumpSqrs.at(j).setJumpStatus(availMoves.at(j).getJumpStatus());
+  //       }
+  //     }
+  //   }
+  // }
 
-void Mechanics::writeSave(fstream& save){
+  uint aPos = 0;
+  uint jPos = 0;
+  Square tempSqr;
 
-  bool startData = true;
-  bool endData = true;
-
-  save << startData;
-  save << "\n";
-
-  for(int i = 0; i < 8; i++){
-    for(int j = 0; j < 8; j++){
-      save << Board::Grid().at(i).at(j).hasPiece();
-      save << " ";
-      save << Board::Grid().at(i).at(j).getColor();
-      save << " ";
-      save << Board::Grid().at(i).at(j).getPieceColor();
-      save << " ";
-      save << Board::Grid().at(i).at(j).getPieceOption();
-      save << " ";
-      save << Board::Grid().at(i).at(j).getPieceSelected();
-      save << " ";
-      save << Board::Grid().at(i).at(j).getPieceDes();
-      save << " ";
-      save << Board::Grid().at(i).at(j).getRow();
-      save << " ";
-      save << Board::Grid().at(i).at(j).getCol();
-      save << " ";
-      save << Board::Grid().at(i).at(j).getJumpStatus();
-      save << " ";
-      save << Board::Grid().at(i).at(j).getPieceKing();
-      save << " ";
+  for (uint i = 0; i < availMoves.size(); i++){
+    if(availMoves.at(i).getJumpStatus()){
+      aPos = i;
+//      cout << "availMoves has a jump at " << aPos << endl;
     }
-    save << "\n";
   }
-
-  for(int j = 0; j < 4; j++){
-    save << JumpSqrs.at(j).hasPiece();
-    save << " ";
-    save << JumpSqrs.at(j).getColor();
-    save << " ";
-    save << JumpSqrs.at(j).getPieceColor();
-    save << " ";
-    save << JumpSqrs.at(j).getPieceOption();
-    save << " ";
-    save << JumpSqrs.at(j).getPieceSelected();
-    save << " ";
-    save << JumpSqrs.at(j).getPieceDes();
-    save << " ";
-    save << JumpSqrs.at(j).getRow();
-    save << " ";
-    save << JumpSqrs.at(j).getCol();
-    save << " ";
-    save << JumpSqrs.at(j).getJumpStatus();
-    save << " ";
-    save << JumpSqrs.at(j).getPieceKing();
-    save << "\n";
-  }
-
-  save << Canvas::playing;
-  save << "\n";
-
-  save << endData;
-}
-
-void Mechanics::readSave(fstream& save){
-  Board::populate();
-
-  bool startData = false;
-  save >> startData;
-
-  bool hasPiece = false;
-  string color = "";
-  string pieceColor = "";
-  int option = 0;
-  bool selected = false;
-  bool des = false;
-  int row = 0;
-  int col = 0;
-  bool jump = false;
-  bool king = false;
-
-  if(startData){
-    for(int i = 0; i < 8; i++){
-      for(int j = 0; j < 8; j++){
-        save >> hasPiece;
-        Board::Grid().at(i).at(j).setPieceStatus(hasPiece);
-        save >> color;
-        Board::Grid().at(i).at(j).setColor(color);
-        save >> pieceColor;
-        Board::Grid().at(i).at(j).setPieceColor(pieceColor);
-        save >> option;
-        Board::Grid().at(i).at(j).setPieceOption(option);
-        save >> selected;
-        Board::Grid().at(i).at(j).setPieceSelected(selected);
-        save >> des;
-        Board::Grid().at(i).at(j).setPieceDes(des);
-        save >> row;
-        Board::Grid().at(i).at(j).setRow(row);
-        save >> col;
-        Board::Grid().at(i).at(j).setCol(col);
-        save >> jump;
-        Board::Grid().at(i).at(j).setJumpStatus(jump);
-        save >> king;
-        Board::Grid().at(i).at(j).setPieceKing(king);
-      }
+  for(uint j = 0; j < JumpSqrs.size(); j++){
+    if(JumpSqrs.at(j).getJumpStatus()){
+      jPos = j;
+  //    cout << "JumpSqrs has a jump at " << jPos << endl;
     }
-
-    for(int j = 0; j < 4; j++){
-      save >> hasPiece;
-      JumpSqrs.at(j).setPieceStatus(hasPiece);
-      save >> color;
-      JumpSqrs.at(j).setColor(color);
-      save >> pieceColor;
-      JumpSqrs.at(j).setPieceColor(pieceColor);
-      save >> option;
-      JumpSqrs.at(j).setPieceOption(option);
-      save >> selected;
-      JumpSqrs.at(j).setPieceSelected(selected);
-      save >> des;
-      JumpSqrs.at(j).setPieceDes(des);
-      save >> row;
-      JumpSqrs.at(j).setRow(row);
-      save >> col;
-      JumpSqrs.at(j).setCol(col);
-      save >> jump;
-      JumpSqrs.at(j).setJumpStatus(jump);
-      save >> king;
-      JumpSqrs.at(j).setPieceKing(king);
-    }
-
-    save >> Canvas::playing;
-
   }
-}
+  tempSqr = JumpSqrs.at(jPos);
+  JumpSqrs.at(jPos) = JumpSqrs.at(aPos);
+  JumpSqrs.at(aPos) = tempSqr;
+//  cout << "swapped" << endl;
 
-void Mechanics::clearSave(){
-  ofstream deleteFile;
-  deleteFile.open("board.save", std::ofstream::out | std::ofstream::trunc);
-  deleteFile.close();
+  for(uint j = 0; j < JumpSqrs.size(); j++){
+    if(JumpSqrs.at(j).getJumpStatus()){
+      jPos = j;
+//      cout << "JumpSqrs has a jump at " << jPos << endl;
+    }
+  }
+//   cout << "availMoves has a jump status at " << s << endl;
+//
+//   tempSqr = JumpSqrs.at(s);
+//   JumpSqrs.at(s) =
 }

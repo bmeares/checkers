@@ -4,6 +4,7 @@
 #include <iostream>
 #include <string>
 #include <iomanip>
+#include <ctime>
 #include "../Canvas/Canvas.h"
 
 using namespace std;
@@ -12,9 +13,12 @@ class Menu{
   private:
 
   public:
-    static void printMenu();
     static bool startGame();
     static bool quit();
+    static void clearSave();
+    static void readSave();
+    static void writeSave();
+    static bool runAgain();
 
     Menu();
     ~Menu();

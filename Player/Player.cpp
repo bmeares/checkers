@@ -1,6 +1,8 @@
 #include "Player.h"
 
 string Player::choice = "";
+vector<Square> Player::remainingSqrs;
+int Player::numPieces = 0;
 
 bool Player::yesOrNo(){
 
@@ -20,7 +22,7 @@ bool Player::yesOrNo(){
 
 void Player::turn(){
   Canvas::playing = "@@";
-  Canvas::drawBoard();
+//  Canvas::drawBoard();
   bool runagain = true;
   Square fromSqr;
   vector<Square> availMoves;
@@ -39,6 +41,7 @@ void Player::turn(){
   }
 
   chooseMove(fromSqr, availMoves);
+
   Canvas::playing = "##";
 
   Canvas::drawBoard();
@@ -46,8 +49,24 @@ void Player::turn(){
 
 void Player::chooseMove(Square& fromSqr, vector<Square> availMoves){
   int option;
-  cout << "Choose which move you would like to make (number): ";
-  cin >> option;
+  bool running = true;
+
+  while(running){
+    running = false;
+    cout << "Choose which move you would like to make (number): ";
+    cin >> option;
+
+    if(option < 1 || static_cast<uint>(option) > availMoves.size()){
+      cout << "\nPlease pick a valid move." << endl;
+      cout << "Press Enter to pick another move" << endl;
+      cin.clear();
+      cin.ignore();
+      cin.ignore();
+      running = true;
+      Canvas::drawBoard();
+    }
+  }
+
   Mechanics::move(fromSqr, availMoves, "white", option);
 }
 
@@ -81,6 +100,10 @@ Square& Player::select(){
   }
 
   return Board::Grid().at(row).at(col);
+}
+
+void Player::addSqr(Square& sqr){
+  remainingSqrs.push_back(sqr);
 }
 
 Player::Player(){}

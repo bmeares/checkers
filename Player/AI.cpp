@@ -1,27 +1,52 @@
 #include "AI.h"
 
+using namespace std::this_thread;
+using namespace std::chrono;
+
+
 string AI::choice = "";
+bool AI::singlePlayer = false;
+vector<Square> AI::remainingSqrs;
+int AI::numPieces = 0;
 
 void AI::turn(){
   Canvas::playing = "##";
-  Canvas::drawBoard();
+//  Canvas::drawBoard();
   bool runagain = true;
   Square fromSqr;
   vector<Square> availMoves;
 
-  while(runagain){
-    fromSqr = select();
-    availMoves = Mechanics::findPossibleMoves(fromSqr, "ai");
-    runagain = !(Mechanics::hasMoves(availMoves));
+  if(!singlePlayer){
+    while(runagain){
+      fromSqr = select();
+      availMoves = Mechanics::findPossibleMoves(fromSqr, "ai");
+      runagain = !(Mechanics::hasMoves(availMoves));
 
-    if(runagain){
-      Board::Grid().at(fromSqr.getRow()).at(fromSqr.getCol()).setPieceSelected(false);
-      Canvas::chooseAvailableMessage();
-      Canvas::drawBoard();
+      if(runagain){
+        Board::Grid().at(fromSqr.getRow()).at(fromSqr.getCol()).setPieceSelected(false);
+        Canvas::chooseAvailableMessage();
+        Canvas::drawBoard();
+      }
     }
+
+    chooseMove(fromSqr, availMoves);
+  }
+  else{
+    sleep_for(nanoseconds(400000000));
+    while(runagain){
+      fromSqr = randSelect();
+      availMoves = Mechanics::findPossibleMoves(fromSqr, "ai");
+      runagain = !(Mechanics::hasMoves(availMoves));
+
+      if(runagain){
+        Board::Grid().at(fromSqr.getRow()).at(fromSqr.getCol()).setPieceSelected(false);
+  //      Canvas::drawBoard();
+      }
+    }
+    sleep_for(nanoseconds(700000000));
+    randChooseMove(fromSqr, availMoves);
   }
 
-  chooseMove(fromSqr, availMoves);
   Canvas::playing = "@@";
 
   Canvas::drawBoard();
@@ -29,8 +54,42 @@ void AI::turn(){
 
 void AI::chooseMove(Square& fromSqr, vector<Square> availMoves){
   int option;
-  cout << "Choose which move you would like to make (number): ";
-  cin >> option;
+  bool running = true;
+
+  while(running){
+    running = false;
+    cout << "Choose which move you would like to make (number): ";
+    cin >> option;
+
+    if(option < 1 || static_cast<uint>(option) > availMoves.size()){
+      cout << "\nPlease pick a valid move." << endl;
+      cout << "Press Enter to pick another move" << endl;
+      cin.clear();
+      cin.ignore();
+      cin.ignore();
+      running = true;
+      Canvas::drawBoard();
+    }
+  }
+
+  Mechanics::move(fromSqr, availMoves, "black", option);
+}
+
+void AI::randChooseMove(Square& fromSqr, vector<Square> availMoves){
+  int option;
+  bool running = true;
+//  uint randMax = availMoves.size();
+
+  while(running){
+    running = false;
+    option = randomInt(1, static_cast<int>(availMoves.size()));
+
+    if(option < 1 || static_cast<uint>(option) > availMoves.size()){
+      running = true;
+//      Canvas::drawBoard();
+    }
+  }
+
   Mechanics::move(fromSqr, availMoves, "black", option);
 }
 
@@ -46,7 +105,8 @@ Square& AI::select(){
     col = Board::selectCol();
     row = Board::selectRow();
 
-    if(Board::Grid().at(row).at(col).getPieceColor() == "black"){
+    if(Board::Grid().at(row).at(col).getPieceColor() == "black"
+    && Board::Grid().at(row).at(col).hasPiece()){
       Board::Grid().at(row).at(col).setPieceSelected(true);
       selecting = false;
     }
@@ -63,6 +123,35 @@ Square& AI::select(){
   }
 
   return Board::Grid().at(row).at(col);
+}
+
+Square& AI::randSelect(){
+  int col = 0;
+  int row = 0;
+  int randMax = 7;
+
+  bool selecting = true;
+  while(selecting){
+
+    col = rand() % randMax;
+    row = rand() % randMax;
+
+    if(Board::Grid().at(row).at(col).getPieceColor() == "black"
+    && Board::Grid().at(row).at(col).hasPiece()){
+      Board::Grid().at(row).at(col).setPieceSelected(true);
+      selecting = false;
+    }
+  }
+
+  return Board::Grid().at(row).at(col);
+}
+
+void AI::addSqr(Square& sqr){
+  remainingSqrs.push_back(sqr);
+}
+
+int AI::randomInt(int min, int max){
+  return min + rand() % (( max + 1 ) - min);
 }
 
 AI::AI(){}
