@@ -48,7 +48,7 @@ void Player::turn(){
     chooseMove(fromSqr, availMoves);
   }
   else{
-    srand( time(NULL) );
+//    srand( time(NULL) );
     sleep_for(nanoseconds(50000000));
     while(runagain){
       fromSqr = randSelect();
@@ -151,7 +151,7 @@ Square& Player::randSelect(){
 
   bool selecting = true;
   while(selecting){
-    
+
     if(randMax == 0)
       randChoice = 0;
     else

@@ -28,6 +28,7 @@ bool Menu::startGame(){
       srand(time(NULL));
     }
     else if(numPlayers == 0){
+      srand(time(NULL));
       Player::noPlayers = true;
       AI::singlePlayer = true;
     }

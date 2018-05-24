@@ -132,7 +132,7 @@ vector<Square> Mechanics::findPossibleMoves(Square& fromSqr, string player){
 
   fixOptionLabels(availMoves);
 
-  if(!Player::noPlayers && !AI::singlePlayer && !Menu::checking)
+  if(!Player::noPlayers && !Menu::checking)
     Canvas::drawBoard();
 
   return availMoves;

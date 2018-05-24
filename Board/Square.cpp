@@ -1,8 +1,8 @@
 #include "Square.h"
-#include <codecvt>
-#include <locale>
-#include <fcntl.h>
-#include <io.h>
+//#include <codecvt>
+//#include <locale>
+//#include <fcntl.h>
+//#include <io.h>
 
 
 ostream& operator << (ostream& out, Square& square) {
