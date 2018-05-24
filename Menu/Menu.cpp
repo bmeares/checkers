@@ -7,8 +7,8 @@ bool Menu::startGame(){
   int numPlayers = 0;
   bool choosing = true;
   Canvas::clearScreen();
-  cout << "\n Welcome to Simple Checkers! You're playing version "
-    << fixed << setprecision(2) << version << ".";
+  cout << "\n Welcome to Simple Checkers!\n You're playing version "
+    << fixed << setprecision(2) << version << ": Windows Edition!";
   cout << "\n\n How many players? (0, 1, or 2) ";
 
   while(choosing){
@@ -74,7 +74,7 @@ bool Menu::checkWin(){
   checking = true;
 
   /* Check if Player has any moves left */
-  for(uint i = 0; i < Player::getRemainingSqrs().size(); i++){
+  for(unsigned int i = 0; i < Player::getRemainingSqrs().size(); i++){
     fromSqr = Player::quietSelect(i);
     availMoves = Mechanics::findPossibleMoves(fromSqr, "player");
     Mechanics::resetJumpSqrs();
@@ -94,7 +94,7 @@ bool Menu::checkWin(){
 
   /* Check if AI has any moves left */
   foundMoves = false;
-  for(uint i = 0; i < AI::getRemainingSqrs().size(); i++){
+  for(unsigned int i = 0; i < AI::getRemainingSqrs().size(); i++){
     fromSqr = AI::quietSelect(i);
     availMoves = Mechanics::findPossibleMoves(fromSqr, "ai");
     Mechanics::resetJumpSqrs();
@@ -116,16 +116,16 @@ bool Menu::checkWin(){
 
   if(playerLost){
     Canvas::clearScreen();
-    Canvas::clearScreen();
-    Canvas::clearScreen();
+//    Canvas::clearScreen();
+//    Canvas::clearScreen();
     cout << "\n GAME OVER\n" << endl;
     cout << " ## wins!\n" << endl;
     playing = Menu::runAgain();
   }
   else if(aiLost){
     Canvas::clearScreen();
-    Canvas::clearScreen();
-    Canvas::clearScreen();
+//    Canvas::clearScreen();
+//    Canvas::clearScreen();
     cout << "\n GAME OVER\n" << endl;
     cout << " @@ wins!\n" << endl;
     playing = Menu::runAgain();
@@ -221,7 +221,7 @@ void Menu::writeSave(){
 
   save << keepReading;
   save << " ";
-  for(uint i = 0; i < AI::getRemainingSqrs().size(); i++){
+  for(unsigned int i = 0; i < AI::getRemainingSqrs().size(); i++){
     save << AI::getRemainingSqrs().at(i).hasPiece();
     save << " ";
     save << AI::getRemainingSqrs().at(i).getColor();
@@ -258,7 +258,7 @@ void Menu::writeSave(){
 
   save << keepReading;
   save << " ";
-  for(uint i = 0; i < Player::getRemainingSqrs().size(); i++){
+  for(unsigned int i = 0; i < Player::getRemainingSqrs().size(); i++){
     save << Player::getRemainingSqrs().at(i).hasPiece();
     save << " ";
     save << Player::getRemainingSqrs().at(i).getColor();

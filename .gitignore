@@ -1,4 +1,4 @@
-chess
+checkers
 bin/
 *.o
 *.save

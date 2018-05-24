@@ -2,11 +2,17 @@
 #include <string>
 #include "includes.h"
 #include <fstream>
+//#include <io.h>
+//#include <fcntl.h>
+//#include <windows.h>
 
 
 using namespace std;
 
 int main() {
+//  _setmode(_fileno(stdout), _O_U16TEXT);
+//  SetConsoleOutputCP(65001);
+//_setmode(_fileno(stdout), _O_U16TEXT);
 
   bool running = Menu::startGame();
   Menu::readSave();

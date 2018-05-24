@@ -355,7 +355,7 @@ void Mechanics::move(Square& fromSqr, vector<Square> availMoves, string color, i
     Player::updateRemainingSqr(fromRow, fromCol, choiceRow, choiceCol);
 
   /* Reset availMoves */
-  for(uint i = 0; i < availMoves.size(); i++){
+  for(unsigned int i = 0; i < availMoves.size(); i++){
     optionRow = availMoves.at(i).getRow();
     optionCol = availMoves.at(i).getCol();
     Board::Grid().at(optionRow).at(optionCol).setPieceDes(false);
@@ -454,7 +454,7 @@ void Mechanics::resetJumpSqrs(){
 
 void Mechanics::fixOptionLabels(vector<Square> availMoves){
   int option = 1;
-  for(uint i = 0; i < availMoves.size(); i++){
+  for(unsigned int i = 0; i < availMoves.size(); i++){
     availMoves.at(i).setPieceOption(option);
 
     int availRow = availMoves.at(i).getRow();
@@ -467,17 +467,17 @@ void Mechanics::fixOptionLabels(vector<Square> availMoves){
 
 void Mechanics::syncAvailandJump(vector<Square> availMoves){
 
-  uint aPos = 0;
-  uint jPos = 0;
+  unsigned int aPos = 0;
+  unsigned int jPos = 0;
   Square tempSqr;
 
-  for (uint i = 0; i < availMoves.size(); i++){
+  for (unsigned int i = 0; i < availMoves.size(); i++){
     if(availMoves.at(i).getJumpStatus()){
       aPos = i;
 //      cout << "availMoves has a jump at " << aPos << endl;
     }
   }
-  for(uint j = 0; j < JumpSqrs.size(); j++){
+  for(unsigned int j = 0; j < JumpSqrs.size(); j++){
     if(JumpSqrs.at(j).getJumpStatus()){
       jPos = j;
 //      cout << "JumpSqrs has a jump at " << jPos << endl;
@@ -488,7 +488,7 @@ void Mechanics::syncAvailandJump(vector<Square> availMoves){
   JumpSqrs.at(aPos) = tempSqr;
 //  cout << "swapped" << endl;
 
-  for(uint j = 0; j < JumpSqrs.size(); j++){
+  for(unsigned int j = 0; j < JumpSqrs.size(); j++){
     if(JumpSqrs.at(j).getJumpStatus()){
       jPos = j;
 //      cout << "JumpSqrs has a jump at " << jPos << endl;

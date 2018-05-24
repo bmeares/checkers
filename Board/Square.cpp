@@ -1,13 +1,20 @@
 #include "Square.h"
+#include <codecvt>
+#include <locale>
+#include <fcntl.h>
+#include <io.h>
+
 
 ostream& operator << (ostream& out, Square& square) {
+  char block = 219;
 
   if(square.hasPiece() || square.getPieceDes()){
     out << square.piece;
   }
   else{
     if(square.getColor() == "black"){
-      out << "\u2588\u2588";
+  //    out << "\u2588\u2588";
+        out << block << block;
     }
     else if(square.getColor() == "white"){
       out << "  ";

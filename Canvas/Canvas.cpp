@@ -1,14 +1,16 @@
 #include "Canvas.h"
+#include <stdlib.h>
 using namespace Canvas;
 
 void Canvas::clearScreen(){
-  cout << "\033c";
+//  cout << "\033c";
+  system("CLS");
 }
 
 void Canvas::drawBoard(){
-  clearScreen();
-  clearScreen();
-  clearScreen();
+//  clearScreen();
+//  clearScreen();
+//  clearScreen();
   clearScreen();
   nowPlaying();
 
@@ -50,11 +52,11 @@ bool Canvas::reset = false;
 void Canvas::nowPlaying(){
   cout << " ";
   for(int i = 0; i < 19; i++){
-    cout << "\u2014";
+    cout << "-";
   }
   cout << "\n | NOW PLAYING: " << playing << " |"<< endl;
   cout << " ";
   for(int i = 0; i < 19; i++){
-    cout << "\u2014";
+    cout << "-";
   }
 }

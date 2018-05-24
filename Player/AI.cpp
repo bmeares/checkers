@@ -69,7 +69,7 @@ void AI::chooseMove(Square& fromSqr, vector<Square> availMoves){
     cout << "Choose which move you would like to make (number): ";
     cin >> option;
 
-    if(option < 1 || static_cast<uint>(option) > availMoves.size()){
+    if(option < 1 || static_cast<unsigned int>(option) > availMoves.size()){
       cout << "\nPlease pick a valid move." << endl;
       cout << "Press Enter to pick another move" << endl;
       cin.clear();
@@ -86,13 +86,13 @@ void AI::chooseMove(Square& fromSqr, vector<Square> availMoves){
 void AI::randChooseMove(Square& fromSqr, vector<Square> availMoves){
   int option;
   bool running = true;
-//  uint randMax = availMoves.size();
+//  unsigned int randMax = availMoves.size();
 
   while(running){
     running = false;
     option = randomInt(1, static_cast<int>(availMoves.size()));
 
-    if(option < 1 || static_cast<uint>(option) > availMoves.size()){
+    if(option < 1 || static_cast<unsigned int>(option) > availMoves.size()){
       running = true;
 //      Canvas::drawBoard();
     }
@@ -142,7 +142,11 @@ Square& AI::randSelect(){
   bool selecting = true;
   while(selecting){
 
-    randChoice = rand() % randMax;
+    if(randMax == 0)
+      randChoice = 0;
+    else
+      randChoice = rand() % randMax;
+
     col = remainingSqrs.at(randChoice).getCol();
     row = remainingSqrs.at(randChoice).getRow();
 
@@ -185,7 +189,7 @@ int AI::randomInt(int min, int max){
 }
 
 void AI::delRemainingSqr(int jumpedRow, int jumpedCol){
-  for(uint i = 0; i < remainingSqrs.size(); i++){
+  for(unsigned int i = 0; i < remainingSqrs.size(); i++){
     if(remainingSqrs.at(i).getRow() == jumpedRow
     && remainingSqrs.at(i).getCol() == jumpedCol){
       remainingSqrs.erase(remainingSqrs.begin() + i);
@@ -194,7 +198,7 @@ void AI::delRemainingSqr(int jumpedRow, int jumpedCol){
 }
 
 void AI::updateRemainingSqr(int fromRow, int fromCol, int choiceRow, int choiceCol){
-  for(uint i = 0; i < remainingSqrs.size(); i++){
+  for(unsigned int i = 0; i < remainingSqrs.size(); i++){
     if(remainingSqrs.at(i).getRow() == fromRow
     && remainingSqrs.at(i).getCol() == fromCol){
       remainingSqrs.at(i).setRow(choiceRow);
