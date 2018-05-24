@@ -19,6 +19,9 @@ class Menu{
     static void readSave();
     static void writeSave();
     static bool runAgain();
+    static bool checkWin();
+
+    static bool checking;
 
     Menu();
     ~Menu();

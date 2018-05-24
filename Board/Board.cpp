@@ -12,7 +12,7 @@ void Board::populate(){
 
   int place = 0;
 
-  grid.resize(16);
+  grid.resize(8);
   AI::getRemainingSqrs().resize(12);
   Player::getRemainingSqrs().resize(12);
 
@@ -56,7 +56,10 @@ void Board::populate(){
       if(grid.at(i).at(j).getColor() == "white"){
         grid.at(i).at(j).setPiece(Piece("black"));
         grid.at(i).at(j).setPieceStatus(true);
+        grid.at(i).at(j).setPieceKing(false);
+        grid.at(i).at(j).setJumpStatus(false);
         AI::getRemainingSqrs().at(k) = grid.at(i).at(j);
+        k++;
       }
     }
   }
@@ -66,7 +69,10 @@ void Board::populate(){
       if(grid.at(i).at(j).getColor() == "white"){
         grid.at(i).at(j).setPiece(Piece("white"));
         grid.at(i).at(j).setPieceStatus(true);
-        AI::getRemainingSqrs().at(k) = grid.at(i).at(j);
+        grid.at(i).at(j).setPieceKing(false);
+        grid.at(i).at(j).setJumpStatus(false);
+        Player::getRemainingSqrs().at(k) = grid.at(i).at(j);
+        k++;
       }
     }
   }
@@ -75,8 +81,13 @@ void Board::populate(){
     for(int j = 0; j < 8; j++){
       if(!grid.at(i).at(j).hasPiece())
         grid.at(i).at(j).setPieceColor("none");
+        grid.at(i).at(j).setPieceKing(false);
+        grid.at(i).at(j).setJumpStatus(false);
     }
   }
+
+  Mechanics::resetJumpSqrs();
+
 }
 
 int Board::selectRow(){

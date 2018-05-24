@@ -1,6 +1,10 @@
 #include "Player.h"
 
+using namespace std::this_thread;
+using namespace std::chrono;
+
 string Player::choice = "";
+bool Player::noPlayers = false;
 vector<Square> Player::remainingSqrs;
 int Player::numPieces = 0;
 
@@ -27,20 +31,38 @@ void Player::turn(){
   Square fromSqr;
   vector<Square> availMoves;
 
-  while(runagain){
-    fromSqr = select();
-    availMoves = Mechanics::findPossibleMoves(fromSqr, "player");
+  if(!noPlayers){
+    while(runagain){
+      fromSqr = select();
+      availMoves = Mechanics::findPossibleMoves(fromSqr, "player");
 
-    runagain = !(Mechanics::hasMoves(availMoves));
+      runagain = !(Mechanics::hasMoves(availMoves));
 
-    if(runagain){
-      Board::Grid().at(fromSqr.getRow()).at(fromSqr.getCol()).setPieceSelected(false);
-      Canvas::chooseAvailableMessage();
-      Canvas::drawBoard();
+      if(runagain){
+        Board::Grid().at(fromSqr.getRow()).at(fromSqr.getCol()).setPieceSelected(false);
+        Canvas::chooseAvailableMessage();
+        Canvas::drawBoard();
+      }
     }
-  }
 
-  chooseMove(fromSqr, availMoves);
+    chooseMove(fromSqr, availMoves);
+  }
+  else{
+    srand( time(NULL) );
+    sleep_for(nanoseconds(50000000));
+    while(runagain){
+      fromSqr = randSelect();
+      availMoves = Mechanics::findPossibleMoves(fromSqr, "player");
+      runagain = !(Mechanics::hasMoves(availMoves));
+
+      if(runagain){
+        Board::Grid().at(fromSqr.getRow()).at(fromSqr.getCol()).setPieceSelected(false);
+  //      Canvas::drawBoard();
+      }
+    }
+//    sleep_for(nanoseconds(70000000));
+    randChooseMove(fromSqr, availMoves);
+  }
 
   Canvas::playing = "##";
 
@@ -69,6 +91,25 @@ void Player::chooseMove(Square& fromSqr, vector<Square> availMoves){
 
   Mechanics::move(fromSqr, availMoves, "white", option);
 }
+
+void Player::randChooseMove(Square& fromSqr, vector<Square> availMoves){
+  int option;
+  bool running = true;
+//  uint randMax = availMoves.size();
+
+  while(running){
+    running = false;
+    option = randomInt(1, static_cast<int>(availMoves.size()));
+
+    if(option < 1 || static_cast<uint>(option) > availMoves.size()){
+      running = true;
+//      Canvas::drawBoard();
+    }
+  }
+
+  Mechanics::move(fromSqr, availMoves, "white", option);
+}
+
 
 Square& Player::select(){
   cout << "Select which piece to move," << endl;
@@ -102,8 +143,74 @@ Square& Player::select(){
   return Board::Grid().at(row).at(col);
 }
 
+Square& Player::randSelect(){
+  int col = 0;
+  int row = 0;
+  int randMax = remainingSqrs.size();
+  int randChoice = 0;
+
+  bool selecting = true;
+  while(selecting){
+
+    randChoice = rand() % randMax;
+    col = remainingSqrs.at(randChoice).getCol();
+    row = remainingSqrs.at(randChoice).getRow();
+
+    if(Board::Grid().at(row).at(col).getPieceColor() == "white"
+    && Board::Grid().at(row).at(col).hasPiece()){
+      Board::Grid().at(row).at(col).setPieceSelected(true);
+      selecting = false;
+    }
+  }
+
+  return Board::Grid().at(row).at(col);
+}
+
+Square& Player::quietSelect(int choice){
+  int col = 0;
+  int row = 0;
+
+  bool selecting = true;
+  while(selecting){
+
+    col = remainingSqrs.at(choice).getCol();
+    row = remainingSqrs.at(choice).getRow();
+
+    if(Board::Grid().at(row).at(col).getPieceColor() == "white"
+    && Board::Grid().at(row).at(col).hasPiece()){
+      Board::Grid().at(row).at(col).setPieceSelected(true);
+      selecting = false;
+    }
+  }
+
+  return Board::Grid().at(row).at(col);
+}
+
 void Player::addSqr(Square& sqr){
   remainingSqrs.push_back(sqr);
+}
+
+int Player::randomInt(int min, int max){
+  return min + rand() % (( max + 1 ) - min);
+}
+
+void Player::delRemainingSqr(int jumpedRow, int jumpedCol){
+  for(uint i = 0; i < remainingSqrs.size(); i++){
+    if(remainingSqrs.at(i).getRow() == jumpedRow
+    && remainingSqrs.at(i).getCol() == jumpedCol){
+      remainingSqrs.erase(remainingSqrs.begin() + i);
+    }
+  }
+}
+
+void Player::updateRemainingSqr(int fromRow, int fromCol, int choiceRow, int choiceCol){
+  for(uint i = 0; i < remainingSqrs.size(); i++){
+    if(remainingSqrs.at(i).getRow() == fromRow
+    && remainingSqrs.at(i).getCol() == fromCol){
+      remainingSqrs.at(i).setRow(choiceRow);
+      remainingSqrs.at(i).setCol(choiceCol);
+    }
+  }
 }
 
 Player::Player(){}

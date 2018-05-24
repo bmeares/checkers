@@ -26,6 +26,6 @@ Square::Square(bool hasPiece, string clr) : pieceStatus(hasPiece),
   color(clr), isJump(false){}
 
 Square::Square() : pieceStatus(false), color("white"), piece(Piece("none")),
-  isJump(false){}
+  row(0), col(0), isJump(false){}
 
 Square::~Square(){}

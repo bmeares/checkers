@@ -31,7 +31,12 @@ class AI{
     static void setNumPieces(int n){numPieces = n;}
     static int getNumPieces(){return numPieces;}
     static void decreaseNumPieces(){numPieces--;}
+    static void delRemainingSqr(int, int);
+    static void updateRemainingSqr(int, int, int, int);
+    static void addRemainingSqr(Square& sqr){remainingSqrs.push_back(sqr);}
     static int randomInt(int, int);
+
+    static Square& quietSelect(int);
 
     static bool singlePlayer;
 //    static string difficulty; // TODO

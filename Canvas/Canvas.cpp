@@ -8,6 +8,8 @@ void Canvas::clearScreen(){
 void Canvas::drawBoard(){
   clearScreen();
   clearScreen();
+  clearScreen();
+  clearScreen();
   nowPlaying();
 
   int numLabel = 8;

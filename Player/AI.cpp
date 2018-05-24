@@ -11,7 +11,6 @@ int AI::numPieces = 0;
 
 void AI::turn(){
   Canvas::playing = "##";
-//  Canvas::drawBoard();
   bool runagain = true;
   Square fromSqr;
   vector<Square> availMoves;
@@ -32,7 +31,12 @@ void AI::turn(){
     chooseMove(fromSqr, availMoves);
   }
   else{
-    sleep_for(nanoseconds(400000000));
+    if(Player::noPlayers)
+      sleep_for(nanoseconds(50000000));
+    else{
+      srand( time(NULL) );
+      sleep_for(nanoseconds(400000000));
+    }
     while(runagain){
       fromSqr = randSelect();
       availMoves = Mechanics::findPossibleMoves(fromSqr, "ai");
@@ -40,10 +44,14 @@ void AI::turn(){
 
       if(runagain){
         Board::Grid().at(fromSqr.getRow()).at(fromSqr.getCol()).setPieceSelected(false);
-  //      Canvas::drawBoard();
       }
     }
-    sleep_for(nanoseconds(700000000));
+    if(Player::noPlayers){
+
+    }
+    else
+      sleep_for(nanoseconds(700000000));
+
     randChooseMove(fromSqr, availMoves);
   }
 
@@ -128,13 +136,35 @@ Square& AI::select(){
 Square& AI::randSelect(){
   int col = 0;
   int row = 0;
-  int randMax = 7;
+  int randMax = remainingSqrs.size();
+  int randChoice = 0;
 
   bool selecting = true;
   while(selecting){
 
-    col = rand() % randMax;
-    row = rand() % randMax;
+    randChoice = rand() % randMax;
+    col = remainingSqrs.at(randChoice).getCol();
+    row = remainingSqrs.at(randChoice).getRow();
+
+    if(Board::Grid().at(row).at(col).getPieceColor() == "black"
+    && Board::Grid().at(row).at(col).hasPiece()){
+      Board::Grid().at(row).at(col).setPieceSelected(true);
+      selecting = false;
+    }
+  }
+
+  return Board::Grid().at(row).at(col);
+}
+
+Square& AI::quietSelect(int choice){
+  int col = 0;
+  int row = 0;
+
+  bool selecting = true;
+  while(selecting){
+
+    col = remainingSqrs.at(choice).getCol();
+    row = remainingSqrs.at(choice).getRow();
 
     if(Board::Grid().at(row).at(col).getPieceColor() == "black"
     && Board::Grid().at(row).at(col).hasPiece()){
@@ -152,6 +182,25 @@ void AI::addSqr(Square& sqr){
 
 int AI::randomInt(int min, int max){
   return min + rand() % (( max + 1 ) - min);
+}
+
+void AI::delRemainingSqr(int jumpedRow, int jumpedCol){
+  for(uint i = 0; i < remainingSqrs.size(); i++){
+    if(remainingSqrs.at(i).getRow() == jumpedRow
+    && remainingSqrs.at(i).getCol() == jumpedCol){
+      remainingSqrs.erase(remainingSqrs.begin() + i);
+    }
+  }
+}
+
+void AI::updateRemainingSqr(int fromRow, int fromCol, int choiceRow, int choiceCol){
+  for(uint i = 0; i < remainingSqrs.size(); i++){
+    if(remainingSqrs.at(i).getRow() == fromRow
+    && remainingSqrs.at(i).getCol() == fromCol){
+      remainingSqrs.at(i).setRow(choiceRow);
+      remainingSqrs.at(i).setCol(choiceCol);
+    }
+  }
 }
 
 AI::AI(){}
