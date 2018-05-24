@@ -34,7 +34,7 @@ void AI::turn(){
     if(Player::noPlayers)
       sleep_for(nanoseconds(50000000));
     else{
-      srand( time(NULL) );
+//      srand( time(NULL) );
       sleep_for(nanoseconds(400000000));
     }
     while(runagain){

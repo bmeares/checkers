@@ -3,7 +3,7 @@
 bool Menu::checking = false;
 
 bool Menu::startGame(){
-  double version = 0.32;
+  double version = 0.40;
   int numPlayers = 0;
   bool choosing = true;
   Canvas::clearScreen();
@@ -25,9 +25,11 @@ bool Menu::startGame(){
 
     if(numPlayers == 1){
       AI::singlePlayer = true;
+      Player::noPlayers = false;
       srand(time(NULL));
     }
     else if(numPlayers == 0){
+      srand(time(NULL));
       Player::noPlayers = true;
       AI::singlePlayer = true;
     }
